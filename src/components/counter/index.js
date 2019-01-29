@@ -3,12 +3,6 @@ import Counter from './counter'
 import { connect } from 'react-redux'
 
 class CounterContainer extends PureComponent {
-    constructor(){
-        super()
-
-        
-    }
-
     render () {        
         return (
             <Counter
