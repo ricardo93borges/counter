@@ -1,33 +1,39 @@
 import React, { PureComponent } from 'react';
-import Counter from '../counter/index'
+import Counter from './counter'
 import { connect } from 'react-redux'
+import { addCounter, removeCounter, increment, decrement } from '../../reducers/counters/action-creators.js'
 
 class CountersContainer extends PureComponent {
 
     render () {
-        const counters = [0,0,0]         
         return (
-            <div  style={{display:'flex', justifyContent:'space-around'}}>            
-                {counters.map((item, index) => (                
-                        <Counter
-                            key={index}
-                            counter={this.props.counter}
-                            increment={this.props.increment}
-                            decrement={this.props.decrement}
+            <div>
+                <div  style={{display:'flex', justifyContent:'space-around'}}>            
+                    {this.props.counters.map((counter, index) => (
+                        <Counter 
+                            key={index} 
+                            counter={counter} 
+                            removeCounter={this.props.removeCounter(index)} 
+                            increment={this.props.increment(index)}
+                            decrement={this.props.decrement(index)}
                         />
-                    
-                ))}
+                    ))}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: 10 }}>
+                    <button onClick={this.props.addCounter}>ADD</button>
+                </div>
             </div>
-
         )
     }
 }
 
-const mapStateToProps = (state) => ({ counter: state})
+const mapStateToProps = (state) => ({ counters: state})
 
 const mapDispatchToProps = (dispatch) => ({
-    increment: () => dispatch({type:'INCREMENT'}),
-    decrement: () => dispatch({type:'DECREMENT'})
+    increment: (index) => () => dispatch(increment(index)),
+    decrement: (index) => () => dispatch(decrement(index)),
+    addCounter: () => dispatch(addCounter()),
+    removeCounter: (index) => () => dispatch(removeCounter(index))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CountersContainer)

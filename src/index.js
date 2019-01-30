@@ -5,20 +5,13 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux'
-
-const reducer = (state = 0, action) => {
-    switch (action.type) {
-        case 'INCREMENT': return state+1
-        case 'DECREMENT': return state-1
-        default: return state
-    }
-}
+import reducer from './reducers/counters/index'
 
 const store = createStore(reducer)
 
 ReactDOM.render(
-    <Provider store={store}
-        ><App />
+    <Provider store={store}>
+        <App />
     </Provider>, 
     document.getElementById('root')
 );
